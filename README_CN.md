@@ -1,7 +1,7 @@
 # PDF 转 Word 工具
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.7+-green.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/python-3.10+-green.svg)](https://www.python.org/downloads/)
 
 一个简单易用的 PDF 转 Word 在线转换工具，支持自定义保存位置。
 
@@ -9,18 +9,13 @@
 
 - 🚀 **快速转换**：基于 pdf2docx 库，高效转换 PDF 文件
 - 💾 **自定义保存**：转换完成后可选择本地磁盘的任意保存位置
-- 🌐 **跨平台**：支持 Windows、Linux、macOS
 - 🎨 **简洁界面**：简单直观的用户界面
-
-## 截图
-
-![转换界面](screenshot.png)
 
 ## 安装
 
 ### 环境要求
 
-- Python 3.7+
+- Python 3.10+
 - pip 或 conda
 
 ### 安装依赖
@@ -30,7 +25,7 @@
 pip install -r requirements.txt
 
 # 使用 conda
-conda create -n pdf2word python=3.8
+conda create -n pdf2word python=3.10
 conda activate pdf2word
 pip install -r requirements.txt
 ```

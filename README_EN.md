@@ -1,7 +1,7 @@
 # PDF to Word Converter
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.7+-green.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/python-3.10+-green.svg)](https://www.python.org/downloads/)
 
 A simple and easy-to-use online PDF to Word conversion tool with custom save location support.
 
@@ -9,18 +9,13 @@ A simple and easy-to-use online PDF to Word conversion tool with custom save loc
 
 - 🚀 **Fast Conversion**: Based on pdf2docx library for efficient PDF conversion
 - 💾 **Custom Save Location**: Choose any local disk location to save converted files
-- 🌐 **Cross-platform**: Supports Windows, Linux, macOS
 - 🎨 **Clean Interface**: Simple and intuitive user interface
-
-## Screenshot
-
-![Conversion Interface](screenshot.png)
 
 ## Installation
 
 ### Requirements
 
-- Python 3.7+
+- Python 3.10+
 - pip or conda
 
 ### Install Dependencies
@@ -30,7 +25,7 @@ A simple and easy-to-use online PDF to Word conversion tool with custom save loc
 pip install -r requirements.txt
 
 # Using conda
-conda create -n pdf2word python=3.8
+conda create -n pdf2word python=3.10
 conda activate pdf2word
 pip install -r requirements.txt
 ```
