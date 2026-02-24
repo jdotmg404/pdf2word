@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>PDF 转 Word</title>
+    <style>
+        body { font-family: sans-serif; padding: 50px; line-height: 1.6; }
+        .container { max-width: 500px; margin: auto; border: 1px solid #ddd; padding: 20px; border-radius: 8px; }
+        .status { margin-top: 20px; padding: 10px; border-radius: 4px; display: none; }
+        .success { background: #e8f5e9; color: #2e7d32; }
+        .error { background: #ffebee; color: #c62828; }
+        #progressBar { width: 100%; height: 10px; background: #eee; margin-top: 10px; display: none; }
+        #progressInner { width: 0%; height: 100%; background: #4caf50; transition: width 0.3s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>PDF 转 Word</h2>
+        <p>选择电脑中的 PDF 文件进行转换：</p>
+        
+        <input type="file" id="pdfFile" accept=".pdf">
+        <button onclick="startConversion()" style="margin-top: 10px; cursor: pointer;">开始转换</button>
+
+        <div id="progressBar"><div id="progressInner"></div></div>
+        <div id="statusBox" class="status"></div>
+    </div>
+
+    <script>
+        async function startConversion() {
+            const fileInput = document.getElementById('pdfFile');
+            const statusBox = document.getElementById('statusBox');
+            const pBar = document.getElementById('progressBar');
+            const pInner = document.getElementById('progressInner');
+
+            if (!fileInput.files[0]) {
+                alert("请先选择一个 PDF 文件");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            // 重置 UI
+            statusBox.style.display = 'none';
+            pBar.style.display = 'block';
+            pInner.style.width = '30%';
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/convert', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    pInner.style.width = '100%';
+                    
+                    // 获取文件名
+                    const contentDisposition = response.headers.get('Content-Disposition');
+                    let filename = 'converted.docx';
+                    if (contentDisposition) {
+                        const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+                        if (filenameMatch && filenameMatch[1]) {
+                            filename = filenameMatch[1].replace(/['"]/g, '');
+                        }
+                    }
+
+                    // 创建 Blob 并触发下载
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+
+                    statusBox.className = 'status success';
+                    statusBox.innerHTML = `<strong>转换完成！</strong><br>文件已开始下载，请选择保存位置`;
+                    statusBox.style.display = 'block';
+                } else {
+                    const result = await response.json();
+                    throw new Error(result.error || '转换失败');
+                }
+            } catch (err) {
+                statusBox.className = 'status error';
+                statusBox.innerText = "错误: " + err.message;
+                statusBox.style.display = 'block';
+                pInner.style.width = '0%';
+            }
+        }
+    </script>
+</body>
+</html>
