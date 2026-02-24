@@ -3,20 +3,18 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.7+-green.svg)](https://www.python.org/downloads/)
 
-一个简单易用的 PDF 转 Word 在线转换工具，支持实时显示转换进度。
+一个简单易用的 PDF 转 Word 在线转换工具，支持自定义保存位置。
 
-A simple and easy-to-use online PDF to Word conversion tool with real-time progress display.
+A simple and easy-to-use online PDF to Word conversion tool with custom save location support.
 
 ## 功能特性 / Features
 
 - 🚀 **快速转换**：基于 pdf2docx 库，高效转换 PDF 文件
-- 📊 **实时进度**：显示真实的转换进度（当前页/总页数）
 - 💾 **自定义保存**：转换完成后可选择本地磁盘的任意保存位置
 - 🌐 **跨平台**：支持 Windows、Linux、macOS
 - 🎨 **简洁界面**：简单直观的用户界面
 
 - 🚀 **Fast Conversion**: Based on pdf2docx library for efficient PDF conversion
-- 📊 **Real-time Progress**: Display actual conversion progress (current page/total pages)
 - 💾 **Custom Save Location**: Choose any local disk location to save converted files
 - 🌐 **Cross-platform**: Supports Windows, Linux, macOS
 - 🎨 **Clean Interface**: Simple and intuitive user interface
@@ -77,15 +75,15 @@ Open `http://localhost:8080` in your browser.
 
 1. 点击"选择文件"按钮，选择要转换的 PDF 文件
 2. 点击"开始转换"按钮
-3. 等待转换完成，查看实时进度
-4. 转换完成后，点击"下载文件"按钮
-5. 选择保存位置，文件将保存到指定位置
+3. 等待转换完成
+4. 转换完成后，文件会自动下载
+5. 在浏览器弹出的保存对话框中选择保存位置
 
 1. Click the "Choose File" button to select a PDF file
 2. Click the "Start Conversion" button
-3. Wait for conversion to complete and view real-time progress
-4. After conversion, click the "Download File" button
-5. Choose the save location, and the file will be saved to the specified location
+3. Wait for conversion to complete
+4. After conversion, the file will automatically download
+5. Choose the save location in the browser's save dialog
 
 ## 项目结构 / Project Structure
 
@@ -96,7 +94,9 @@ pdf2word/
 ├── frontend/
 │   └── index.html          # 前端页面 / Frontend page
 ├── requirements.txt        # Python 依赖 / Python dependencies
-└── README.md              # 项目说明 / Project documentation
+├── README.md              # 项目说明 / Project documentation
+├── README_CN.md           # 中文文档 / Chinese documentation
+└── README_EN.md           # 英文文档 / English documentation
 ```
 
 ## 技术栈 / Tech Stack
@@ -110,36 +110,18 @@ pdf2word/
 - **HTML5**: 页面结构 / Page structure
 - **CSS3**: 样式设计 / Styling
 - **JavaScript (ES6+)**: 交互逻辑 / Interactive logic
-- **Server-Sent Events (SSE)**: 实时进度推送 / Real-time progress streaming
 
 ## API 接口 / API Endpoints
 
 ### POST /convert
-上传 PDF 文件并开始转换，返回实时进度流。
+上传 PDF 文件并开始转换，返回转换后的 Word 文件。
 
-Upload PDF file and start conversion, returns real-time progress stream.
+Upload PDF file and start conversion, returns the converted Word file.
 
 **请求 / Request:**
 - Method: POST
 - Content-Type: multipart/form-data
 - Body: file (PDF file)
-
-**响应 / Response:**
-- Content-Type: text/event-stream
-- Events:
-  - `start`: 转换开始，包含总页数 / Conversion started, includes total pages
-  - `progress`: 进度更新，包含当前页和总页数 / Progress update, includes current and total pages
-  - `complete`: 转换完成，包含文件名 / Conversion completed, includes filename
-  - `error`: 错误信息 / Error message
-
-### GET /download/<filename>
-下载转换后的 Word 文件。
-
-Download the converted Word file.
-
-**请求 / Request:**
-- Method: GET
-- Parameter: filename (文件名 / filename)
 
 **响应 / Response:**
 - Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
@@ -161,6 +143,11 @@ A: pdf2docx has limited support for some complex PDF formats. It's recommended t
 A: 修改 `backend/app.py` 中的 `app.run(port=5000)` 端口号。
 
 A: Modify the port number in `app.run(port=5000)` in `backend/app.py`.
+
+### Q: 下载的文件保存在哪里？/ A: Where is the downloaded file saved?
+A: 转换完成后，浏览器会弹出保存对话框，您可以选择保存到本地磁盘的任意位置。
+
+A: After conversion, the browser will show a save dialog where you can choose any location on your local disk.
 
 ## 贡献 / Contributing
 
