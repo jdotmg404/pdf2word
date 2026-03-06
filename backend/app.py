@@ -1,4 +1,7 @@
 import os
+import tempfile
+import shutil
+from io import BytesIO
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from pdf2docx import Converter
@@ -16,23 +19,34 @@ def handle_conversion():
     if file.filename == '':
         return jsonify({"error": "文件名不能为空"}), 400
 
-    # 2. 准备路径
-    temp_pdf_path = os.path.join(os.getcwd(), f"temp_{file.filename}")
+    # 2. 使用系统临时目录
+    temp_dir = tempfile.mkdtemp()
+    temp_pdf_path = os.path.join(temp_dir, f"temp_{file.filename}")
     file.save(temp_pdf_path)
 
-    # 构造输出的 Word 文件名和全路径
+    # 构造输出的 Word 文件名
     docx_filename = file.filename.rsplit('.', 1)[0] + ".docx"
-    output_docx_path = os.path.join(os.getcwd(), f"temp_{docx_filename}")
 
     try:
-        # 3. 调用核心转换引擎
+        # 3. 调用核心转换引擎，输出到内存缓冲区
         cv = Converter(temp_pdf_path)
-        cv.convert(output_docx_path, start=0, end=None)
+        
+        # 创建内存缓冲区
+        output_buffer = BytesIO()
+        
+        # 先转换到临时文件，然后读取到内存
+        temp_docx_path = os.path.join(temp_dir, "temp_output.docx")
+        cv.convert(temp_docx_path, start=0, end=None)
         cv.close()
+        
+        # 读取到内存缓冲区
+        with open(temp_docx_path, 'rb') as f:
+            output_buffer.write(f.read())
+        output_buffer.seek(0)
 
-        # 4. 返回文件供下载
+        # 4. 从内存返回文件供下载
         return send_file(
-            output_docx_path,
+            output_buffer,
             as_attachment=True,
             download_name=docx_filename,
             mimetype='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
@@ -42,12 +56,9 @@ def handle_conversion():
         return jsonify({"error": f"转换失败: {str(e)}"}), 500
     
     finally:
-        # 5. 清理临时文件
-        # 只删除PDF临时文件，Word文件在发送完成后会自动释放
-        if os.path.exists(temp_pdf_path):
-            os.remove(temp_pdf_path)
-        # 注意：Word文件在send_file完成后会自动释放，无需立即删除
-        # 如果需要，可以考虑使用后台任务定时清理临时文件
+        # 5. 清理整个临时目录（包括PDF和Word临时文件）
+        if os.path.exists(temp_dir):
+            shutil.rmtree(temp_dir, ignore_errors=True)
 
 if __name__ == '__main__':
     # 本地启动：默认 5000 端口
