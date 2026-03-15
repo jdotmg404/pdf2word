@@ -44,6 +44,8 @@
 - **WHEN** 进度显示
 - **THEN** 消息文字使用较小字号和灰色
 
+## MODIFIED Requirements
+
 ### Requirement: 实时进度显示
 系统 SHALL 通过 SSE 接收并显示转换进度，使用现代化进度条组件。
 

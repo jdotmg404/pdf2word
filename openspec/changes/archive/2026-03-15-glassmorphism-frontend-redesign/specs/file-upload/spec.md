@@ -41,6 +41,8 @@
 - **WHEN** 文件正在转换
 - **THEN** 上传区域显示禁用状态（降低透明度、禁用交互）
 
+## MODIFIED Requirements
+
 ### Requirement: PDF 文件选择
 系统 SHALL 允许用户选择本地 PDF 文件，支持点击和拖拽两种方式。
 

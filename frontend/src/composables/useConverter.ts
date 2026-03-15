@@ -6,6 +6,7 @@ const API_BASE = ''
 interface UseConverter {
   progress: Ref<number>
   message: Ref<string>
+  stage: Ref<string>
   status: Ref<ConversionStatus>
   errorMessage: Ref<string>
   startConversion: (file: File) => Promise<void>
@@ -15,12 +16,14 @@ interface UseConverter {
 export function useConverter(): UseConverter {
   const progress = ref(0)
   const message = ref('')
+  const stage = ref('')
   const status = ref<ConversionStatus>('idle')
   const errorMessage = ref('')
 
   const reset = () => {
     progress.value = 0
     message.value = ''
+    stage.value = ''
     status.value = 'idle'
     errorMessage.value = ''
   }
@@ -70,7 +73,10 @@ export function useConverter(): UseConverter {
 
             if (eventType === 'progress') {
               progress.value = data.percent
-              message.value = `${data.message} (${data.percent}%)`
+              message.value = data.message
+              if (data.stage) {
+                stage.value = data.stage
+              }
             } else if (eventType === 'complete') {
               handleComplete(data)
               return
@@ -90,6 +96,7 @@ export function useConverter(): UseConverter {
   const handleComplete = (data: CompleteEvent) => {
     progress.value = 100
     message.value = '转换完成！正在下载...'
+    stage.value = 'finalizing'
     status.value = 'success'
 
     // 触发下载
@@ -107,6 +114,7 @@ export function useConverter(): UseConverter {
   return {
     progress,
     message,
+    stage,
     status,
     errorMessage,
     startConversion,
