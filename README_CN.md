@@ -8,9 +8,9 @@
 ## 功能特性
 
 - 🚀 **快速转换**：基于 pdf2docx 库，高效转换 PDF 文件
-- 📊 **实时进度**：显示转换进度（第 X/Y 页 + 百分比）
+- 📊 **实时进度**：显示转换进度（第 X/Y 页 + 百分比）及阶段指示
 - 💾 **自定义保存**：转换完成后可选择本地磁盘的任意保存位置
-- 🎨 **简洁界面**：简单直观的用户界面
+- 🎨 **现代界面**：毛玻璃风格设计，紫色渐变主题，支持拖拽上传
 
 ## 安装
 
@@ -36,6 +36,11 @@ cd frontend && npm install
 ```bash
 python backend/app.py
 ```
+
+> **提示**：如果使用 Claude Code 等 AI 编程工具，请使用：
+> ```bash
+> conda run -n pdf2word python backend/app.py
+> ```
 
 服务器将在 `http://127.0.0.1:5000` 启动。
 
@@ -71,6 +76,7 @@ pdf2word/
 │   │   ├── main.ts         # 入口文件
 │   │   ├── components/     # Vue 组件
 │   │   ├── composables/    # 组合式函数
+│   │   ├── styles/         # 全局样式（设计变量、动画）
 │   │   └── types/          # TypeScript 类型定义
 │   ├── package.json
 │   └── vite.config.ts

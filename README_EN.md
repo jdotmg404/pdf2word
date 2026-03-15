@@ -8,9 +8,9 @@ A simple and easy-to-use online PDF to Word conversion tool with real-time progr
 ## Features
 
 - 🚀 **Fast Conversion**: Based on pdf2docx library for efficient PDF conversion
-- 📊 **Real-time Progress**: Display conversion progress (Page X/Y + percentage)
+- 📊 **Real-time Progress**: Display conversion progress (Page X/Y + percentage) with stage indicator
 - 💾 **Custom Save Location**: Choose any local disk location to save converted files
-- 🎨 **Clean Interface**: Simple and intuitive user interface
+- 🎨 **Modern Interface**: Glassmorphism design with purple gradient theme, drag-and-drop support
 
 ## Installation
 
@@ -36,6 +36,11 @@ cd frontend && npm install
 ```bash
 python backend/app.py
 ```
+
+> **Tip**: If using AI coding tools like Claude Code, use:
+> ```bash
+> conda run -n pdf2word python backend/app.py
+> ```
 
 The server will start at `http://127.0.0.1:5000`.
 
@@ -71,6 +76,7 @@ pdf2word/
 │   │   ├── main.ts         # Entry file
 │   │   ├── components/     # Vue components
 │   │   ├── composables/    # Composable functions
+│   │   ├── styles/         # Global styles (design tokens, animations)
 │   │   └── types/          # TypeScript type definitions
 │   ├── package.json
 │   └── vite.config.ts
