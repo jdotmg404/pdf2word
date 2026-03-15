@@ -17,18 +17,16 @@ A simple and easy-to-use online PDF to Word conversion tool with real-time progr
 ### Requirements
 
 - Python 3.10+
-- conda (recommended) or pip
+- Node.js 18+ (for frontend development)
 
 ### Install Dependencies
 
 ```bash
-# Using conda (recommended)
-conda create -n pdf2word python=3.10
-conda activate pdf2word
-pip install -e .
+# Backend dependencies
+uv sync  # or pip install -e .
 
-# Or using uv
-uv sync
+# Frontend dependencies
+cd frontend && npm install
 ```
 
 ## Usage
@@ -36,7 +34,6 @@ uv sync
 ### 1. Start Backend Server
 
 ```bash
-conda activate pdf2word
 python backend/app.py
 ```
 
@@ -45,13 +42,15 @@ The server will start at `http://127.0.0.1:5000`.
 ### 2. Start Frontend Server
 
 ```bash
-conda activate pdf2word
-python -m http.server 8080 --directory frontend
+cd frontend
+npm run dev
 ```
+
+The frontend development server will start at `http://localhost:5173`.
 
 ### 3. Access the Application
 
-Open `http://localhost:8080` in your browser.
+Open `http://localhost:5173` in your browser.
 
 ### 4. Convert Files
 
@@ -67,9 +66,16 @@ pdf2word/
 ├── backend/
 │   └── app.py              # Flask backend server
 ├── frontend/
-│   └── index.html          # Frontend page
+│   ├── src/
+│   │   ├── App.vue         # Main application component
+│   │   ├── main.ts         # Entry file
+│   │   ├── components/     # Vue components
+│   │   ├── composables/    # Composable functions
+│   │   └── types/          # TypeScript type definitions
+│   ├── package.json
+│   └── vite.config.ts
 ├── pyproject.toml          # Python dependencies
-└── README.md              # Project documentation
+└── README.md
 ```
 
 ## Tech Stack
@@ -81,9 +87,9 @@ pdf2word/
 - **SSE**: Server-Sent Events for real-time progress
 
 ### Frontend
-- **HTML5**: Page structure
-- **CSS3**: Styling
-- **JavaScript (ES6+)**: Interactive logic, Fetch API + ReadableStream
+- **Vue 3**: Progressive JavaScript framework
+- **TypeScript**: Type safety
+- **Vite**: Next-generation frontend build tool
 
 ## API Endpoints
 
@@ -135,10 +141,20 @@ A: Conversion speed depends on the size and complexity of the PDF file. With rea
 A: pdf2docx has limited support for some complex PDF formats. It's recommended to use PDF files with standard formatting.
 
 ### Q: How to change the port?
-A: Modify the port number in `app.run(port=5000)` in `backend/app.py`.
+A: Modify the backend port in `app.run(port=5000)` in `backend/app.py`; configure frontend port in `frontend/vite.config.ts`.
 
 ### Q: Where is the downloaded file saved?
 A: After conversion, the browser will show a save dialog where you can choose any location on your local disk.
+
+## Development
+
+```bash
+# Build frontend for production
+cd frontend && npm run build
+
+# Preview production build
+cd frontend && npm run preview
+```
 
 ## Contributing
 
@@ -152,6 +168,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 - [pdf2docx](https://github.com/dothinking/pdf2docx) - PDF to Word conversion library
 - [Flask](https://flask.palletsprojects.com/) - Web framework
+- [Vue.js](https://vuejs.org/) - Frontend framework
 
 ## Contact
 
