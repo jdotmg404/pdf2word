@@ -8,3 +8,7 @@ uploads/
 *.docx
 .trae/
 .idea
+frontend/.vscode
+frontend/.idea
+frontend/dist
+frontend/node_modules
